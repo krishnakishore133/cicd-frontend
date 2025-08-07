@@ -21,11 +21,11 @@ const BASE_URL = 'http://localhost:9090/springapp1';
     e.preventDefault();
     try {
       if (isEditing) {
-        await axios.put(`${BASE_URL}/update`, product);
+        await axios.put(${BASE_URL}/update, product);
         alert('Update successful');
         setIsEditing(false);
       } else {
-        await axios.post(`${BASE_URL}/insert`, product);
+        await axios.post(${BASE_URL}/insert, product);
         alert('Insert successful');
       }
       setProduct({ id: '', name: '', os: '', price: '' });
@@ -37,7 +37,7 @@ const BASE_URL = 'http://localhost:9090/springapp1';
   };
 
   const fetchProducts = async () => {
-    const res = await axios.get(`${BASE_URL}/display`);
+    const res = await axios.get(${BASE_URL}/display);
     setProducts(res.data);
   };
 
@@ -46,7 +46,15 @@ const BASE_URL = 'http://localhost:9090/springapp1';
     setIsEditing(true);
   };
 
- 
+  
+  const deleteProduct = async (id) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      await axios.delete(${BASE_URL}/delete/${id});
+      alert('Delete successful');
+      fetchProducts();
+    }
+  };
+  
 
   useEffect(() => {
     fetchProducts();
@@ -125,7 +133,7 @@ const BASE_URL = 'http://localhost:9090/springapp1';
                 onClick={() => {
                   setIsEditing(false);
                   setProduct({ id: '', name: '', os: '', price: '' });
-                }}
+}}
               >
                 Cancel
               </button>
@@ -159,7 +167,14 @@ const BASE_URL = 'http://localhost:9090/springapp1';
                 >
                   Edit
                 </button>
-                
+                {
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => deleteProduct(p.id)}
+                >
+                  Delete
+                </button>
+                }
               </td>
             </tr>
           ))}
